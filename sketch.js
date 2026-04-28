@@ -17,10 +17,12 @@ let counter;
 let gridSize = 50;
 let grid = [];
 let obstacles = [];
-let OBSTACLES_NUMBER = 3;
+let OBSTACLES_NUMBER = 30;
 let food;
-let mudField = {};
-let waterField = {};
+let mudFields = [];
+let MUD_FIELDS_NUMBER = 10;
+let waterFields = [];
+let WATER_FIELDS_NUMBER = 10;
 
 function preload() {
   imgVeiculo = loadImage('car.png');
@@ -133,9 +135,13 @@ function setup() {
     for (let i = 0; i < OBSTACLES_NUMBER; i++) {
         obstacles.push(generateObstacle());
     }
+    for (let i = 0; i < MUD_FIELDS_NUMBER; i++) {
+        mudFields.push(generateTerrain(2));
+    }
+    for (let i = 0; i < WATER_FIELDS_NUMBER; i++) {
+        waterFields.push(generateTerrain(3));
+    }
     food = generateFood();
-    mudField = generateTerrain(2);
-    waterField = generateTerrain(3);
     vehicle = new Vehicle(obstacles, grid, gridSize);
     vehicle.seek(food);
     counter = 0;
@@ -146,9 +152,15 @@ function draw() {
     for (let i = 0; i < obstacles.length; i++) {
       drawRect(obstacles[i], '#333333');
     }
-    drawRect(mudField, '#765432');
-    drawRect(waterField, '#4A90E2');
+
+    for (let i = 0; i < mudFields.length; i++) {
+      drawRect(mudFields[i], '#765432');
+    }
+    for (let i = 0; i < waterFields.length; i++) {
+      drawRect(waterFields[i], '#4A90E2');
+    }
     image(imgComida, food.x, food.y, gridSize, gridSize);
+
     drawGrid();
 
     // vehicle.seek(target);
