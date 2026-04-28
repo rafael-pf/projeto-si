@@ -30,6 +30,7 @@ class Vehicle {
         this.path = null;
         this.visited = [];
         this.frontier = [];
+        this.pathIndex = 0;
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
@@ -62,12 +63,7 @@ class Vehicle {
                         break;
                     }
                 }
-                // check if the neighbor is a wall
-                let isWall = false;
-                if (neighbor.x < 0 || neighbor.x >= width || neighbor.y < 0 || neighbor.y >= height) {
-                    isWall = true;
-                }
-                if (!isObstacle && !isWall) {
+                if (!isObstacle) {
                     neighbors.push(neighbor);
                 }
             }
@@ -79,11 +75,11 @@ class Vehicle {
     seek(food) {
         // BFS for food search
         let start = this.pos;
-        let frontier = [start];
         let came_from = {};
-        came_from[`${start.x},${start.y}`] = null;
+        let frontier = [start];
+        this.frontier = frontier;
         this.visited = [];
-        this.frontier = [];
+        came_from[`${start.x},${start.y}`] = null;
 
         const reconstructPath = () => {
             let path = [];
@@ -102,15 +98,15 @@ class Vehicle {
             }
 
             let current = frontier.shift();
-            this.visited.push(current);
 
             if (current.x === food.x && current.y === food.y) {
                 reconstructPath();
                 return;
             }
 
+            this.visited.push(current);
+
             let neighbors = this.getNeighbors(current);
-            this.frontier = neighbors;
             for (let next of neighbors) {
                 if (!came_from.hasOwnProperty(`${next.x},${next.y}`)) {
                     frontier.push(next);
@@ -118,7 +114,7 @@ class Vehicle {
                 }
             }
 
-            setTimeout(step, 10);
+            setTimeout(step, 1);
         };
 
         step();
@@ -140,25 +136,41 @@ class Vehicle {
     }
 
     update() {
-        this.pointer = createVector(this.pos.x + 50, this.pos.y + 20)
-        this.vel.add(this.acc);
-        this.vel.limit(this.maxSpeed);
-        this.pos.add(this.vel);
-        this.acc.set(0, 0);
+        // this.pointer = createVector(this.pos.x + 50, this.pos.y + 20)
+        // this.vel.add(this.acc);
+        // this.vel.limit(this.maxSpeed);
+        // this.pos.add(this.vel);
+        // this.acc.set(0, 0);
         // this.edges();
+
+        // follow the path
+        // if (this.path.length > 1) {
+        //     let target = path[1];
+        //     let desired = p5.Vector.sub(target, this.pos);
+        //     desired.setMag(this.maxSpeed);
+        //     let steer = p5.Vector.sub(desired, this.vel);
+        //     steer.limit(this.maxForce);
+        //     this.applyForce(steer);
+        // }
+
+        if (this.path != null && this.path.length > 1) {
+            let target = this.path[1];
+            let desired = p5.Vector.sub(target, this.pos);
+            desired.setMag(this.maxSpeed);
+            let steer = p5.Vector.sub(desired, this.vel);
+            steer.limit(this.maxForce);
+            this.applyForce(steer);
+
+            this.vel.add(this.acc);
+            this.vel.limit(this.maxSpeed);
+            this.pos.add(this.vel);
+            this.acc.set(0, 0);
+        }
     }
 
     show() {
-        // print path
-        fill(255);
-        if (this.path != null) {
-            for (let i = 1; i < this.path.length - 1; i++) {
-                square(this.path[i].x, this.path[i].y, this.size);
-            }
-        }
-
         // print visited
-        fill(0,150);
+        fill(0, 150);
         for (let i = 0; i < this.visited.length; i++) {
             square(this.visited[i].x, this.visited[i].y, this.size);
         }
@@ -167,6 +179,14 @@ class Vehicle {
         fill(0, 255, 0, 100);
         for (let i = 0; i < this.frontier.length; i++) {
             square(this.frontier[i].x, this.frontier[i].y, this.size);
+        }
+
+        // print path
+        fill(255);
+        if (this.path != null) {
+            for (let i = 1; i < this.path.length - 1; i++) {
+                square(this.path[i].x, this.path[i].y, this.size);
+            }
         }
 
         // stroke(255);
