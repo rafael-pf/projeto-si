@@ -74,39 +74,49 @@ class Vehicle {
     seek(food) {
         // BFS for food search
         let start = this.pos;
-        let frontier = [];
-        frontier.push(start);
+        let frontier = [start];
         let came_from = {};
         came_from[`${start.x},${start.y}`] = null;
+        this.visited = [];
+        this.frontier = [];
 
-        while (frontier.length > 0) {
-            setTimeout(() => { }, 500);
+        const reconstructPath = () => {
+            let path = [];
+            let current = food;
+            while (current != null) {
+                path.push(current);
+                current = came_from[`${current.x},${current.y}`];
+            }
+            this.path = path.reverse();
+        };
+
+        const step = () => {
+            if (frontier.length === 0) {
+                reconstructPath();
+                return;
+            }
+
             let current = frontier.shift();
             this.visited.push(current);
 
             if (current.x === food.x && current.y === food.y) {
-                break;
+                reconstructPath();
+                return;
             }
 
             let neighbors = this.getNeighbors(current);
             this.frontier = neighbors;
-            for (let i = 0; i < neighbors.length; i++) {
-                let next = neighbors[i];
+            for (let next of neighbors) {
                 if (!came_from.hasOwnProperty(`${next.x},${next.y}`)) {
                     frontier.push(next);
                     came_from[`${next.x},${next.y}`] = current;
                 }
             }
-        }
 
-        // reconstruct path
-        let path = [];
-        let current = food;
-        while (current != null) {
-            path.push(current);
-            current = came_from[`${current.x},${current.y}`];
-        }
-        this.path = path.reverse();
+            setTimeout(step, 10);
+        };
+
+        step();
 
         // // follow the path
         // if (path.length > 1) {
@@ -135,12 +145,12 @@ class Vehicle {
 
     show() {
         // print path
-        // fill(255);
-        // if (this.path != null) {
-        //     for (let i = 1; i < this.path.length - 1; i++) {
-        //         square(this.path[i].x, this.path[i].y, this.size);
-        //     }
-        // }
+        fill(255);
+        if (this.path != null) {
+            for (let i = 1; i < this.path.length - 1; i++) {
+                square(this.path[i].x, this.path[i].y, this.size);
+            }
+        }
 
         // print visited
         fill(255, 0, 0, 100);
