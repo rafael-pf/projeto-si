@@ -9,6 +9,8 @@
 // Arrive: https://editor.p5js.org/codingtrain/sketches/dQx9oOfTN
 // Pursue: https://editor.p5js.org/codingtrain/sketches/XbsgoU_of
 
+let imgVeiculo;
+let imgComida;
 let vehicle;
 let target;
 let counter;
@@ -19,6 +21,11 @@ let OBSTACLES_NUMBER = 3;
 let food;
 let mudField = {};
 let waterField = {};
+
+function preload() {
+  imgVeiculo = loadImage('car.png');
+  imgComida = loadImage('apple.png'); 
+}
 
 function drawGrid() {
     for (let x = 0; x < width; x += gridSize) {
@@ -136,13 +143,12 @@ function setup() {
 
 function draw() {
     background('#F2D16B');
-
     for (let i = 0; i < obstacles.length; i++) {
-        drawRect(obstacles[i], '#333333');
+      drawRect(obstacles[i], '#333333');
     }
     drawRect(mudField, '#765432');
     drawRect(waterField, '#4A90E2');
-    drawRect(food, '#FF8C00');
+    image(imgComida, food.x, food.y, gridSize, gridSize);
     drawGrid();
 
     // vehicle.seek(target);

@@ -153,7 +153,7 @@ class Vehicle {
         }
 
         // print visited
-        fill(255, 0, 0, 100);
+        fill(0,150);
         for (let i = 0; i < this.visited.length; i++) {
             square(this.visited[i].x, this.visited[i].y, this.size);
         }
@@ -164,10 +164,11 @@ class Vehicle {
             square(this.frontier[i].x, this.frontier[i].y, this.size);
         }
 
-        stroke(255);
-        strokeWeight(2);
-        fill(0)
-        square(this.pos.x, this.pos.y, this.size);
+        // stroke(255);
+        // strokeWeight(2);
+        // fill('#FF004D');
+        // circle(this.pos.x+25, this.pos.y+25, this.size/2);
+        image(imgVeiculo, this.pos.x, this.pos.y, this.size, this.size);
 
         pop();
     }
