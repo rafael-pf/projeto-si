@@ -195,7 +195,7 @@ class Vehicle {
         // circle(this.pos.x+25, this.pos.y+25, this.size/2);
         image(imgVeiculo, this.pos.x, this.pos.y, this.size, this.size);
 
-        pop();
+        // pop();
     }
 
     // edges() {
