@@ -62,7 +62,12 @@ class Vehicle {
                         break;
                     }
                 }
-                if (!isObstacle) {
+                // check if the neighbor is a wall
+                let isWall = false;
+                if (neighbor.x < 0 || neighbor.x >= width || neighbor.y < 0 || neighbor.y >= height) {
+                    isWall = true;
+                }
+                if (!isObstacle && !isWall) {
                     neighbors.push(neighbor);
                 }
             }
