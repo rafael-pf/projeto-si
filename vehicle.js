@@ -113,7 +113,6 @@ class Vehicle {
                     came_from[`${next.x},${next.y}`] = current;
                 }
             }
-
             setTimeout(step, 1);
         };
 
@@ -153,19 +152,29 @@ class Vehicle {
         //     this.applyForce(steer);
         // }
 
-        if (this.path != null && this.path.length > 1) {
-            let target = this.path[1];
-            let desired = p5.Vector.sub(target, this.pos);
-            desired.setMag(this.maxSpeed);
-            let steer = p5.Vector.sub(desired, this.vel);
-            steer.limit(this.maxForce);
-            this.applyForce(steer);
+      if (this.path && this.path.length > 1) {
+        
+          let target = this.path[1];
+          
+          if (this.pos.x !== target.x) {
+              if (abs(this.pos.x - target.x) < this.maxSpeed) {
+                  this.pos.x = target.x;
+              } else {
+                  this.pos.x += (target.x > this.pos.x) ? this.maxSpeed : -this.maxSpeed;
+              }
+          } 
+          else if (this.pos.y !== target.y) {
+              if (abs(this.pos.y - target.y) < this.maxSpeed) {
+                  this.pos.y = target.y;
+              } else {
+                  this.pos.y += (target.y > this.pos.y) ? this.maxSpeed : -this.maxSpeed;
+              }
+          }
 
-            this.vel.add(this.acc);
-            this.vel.limit(this.maxSpeed);
-            this.pos.add(this.vel);
-            this.acc.set(0, 0);
-        }
+          if (this.pos.x === target.x && this.pos.y === target.y) {
+              this.path.shift();
+          }
+      }
     }
 
     show() {
@@ -176,13 +185,15 @@ class Vehicle {
         }
 
         // print frontier
-        fill(0, 255, 0, 100);
+        stroke(0, 255, 0);
+        fill(0, 150);
         for (let i = 0; i < this.frontier.length; i++) {
             square(this.frontier[i].x, this.frontier[i].y, this.size);
         }
 
         // print path
-        fill(255);
+        noStroke();
+        fill(255, 255, 255, 128);
         if (this.path != null) {
             for (let i = 1; i < this.path.length - 1; i++) {
                 square(this.path[i].x, this.path[i].y, this.size);
