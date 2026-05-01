@@ -121,16 +121,6 @@ class Vehicle {
         step();
 
 
-        // // follow the path
-        // if (path.length > 1) {
-        //     let target = path[1];
-        //     let desired = p5.Vector.sub(target, this.pos);
-        //     desired.setMag(this.maxSpeed);
-        //     let steer = p5.Vector.sub(desired, this.vel);
-        //     steer.limit(this.maxForce);
-        //     this.applyForce(steer);
-        // }
-
     }
 
     applyForce(force) {
@@ -138,22 +128,6 @@ class Vehicle {
     }
 
     update() {
-        // this.pointer = createVector(this.pos.x + 50, this.pos.y + 20)
-        // this.vel.add(this.acc);
-        // this.vel.limit(this.maxSpeed);
-        // this.pos.add(this.vel);
-        // this.acc.set(0, 0);
-        // this.edges();
-
-        // follow the path
-        // if (this.path.length > 1) {
-        //     let target = path[1];
-        //     let desired = p5.Vector.sub(target, this.pos);
-        //     desired.setMag(this.maxSpeed);
-        //     let steer = p5.Vector.sub(desired, this.vel);
-        //     steer.limit(this.maxForce);
-        //     this.applyForce(steer);
-        // }
 
       if (this.path && this.path.length > 1) {
         
@@ -203,25 +177,8 @@ class Vehicle {
             }
         }
 
-        // stroke(255);
-        // strokeWeight(2);
-        // fill('#FF004D');
-        // circle(this.pos.x+25, this.pos.y+25, this.size/2);
         image(imgVeiculo, this.pos.x, this.pos.y, this.size, this.size);
 
-        // pop();
     }
 
-    // edges() {
-    //     if (this.pos.x > width + this.r) {
-    //         this.pos.x = -this.r;
-    //     } else if (this.pos.x < -this.r) {
-    //         this.pos.x = width + this.r;
-    //     }
-    //     if (this.pos.y > height + this.r) {
-    //         this.pos.y = -this.r;
-    //     } else if (this.pos.y < -this.r) {
-    //         this.pos.y = height + this.r;
-    //     }
-    // }
 }
