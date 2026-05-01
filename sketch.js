@@ -146,6 +146,37 @@ function generateFood() {
 function setup() {
   // full screen
   createCanvas(windowWidth, windowHeight);
+  // Setup speed slider early so delay queries work during reset
+  speedSlider = document.getElementById("speed-slider");
+  speedValueLabel = document.getElementById("speed-value");
+  speedSlider.addEventListener("input", updateSearchDelay);
+  updateSearchDelay();
+
+  // Setup food counter label
+  foodCounterLabel = document.getElementById("food-counter");
+  updateFoodCounterLabel();
+
+  // Setup algorithm selector
+  let selector = document.getElementById("algorithm-selector");
+  selector.addEventListener("change", changeSearchAlgorithm);
+
+  // Initialize environment with default algorithm (BFS)
+  resetEnvironment("bfs");
+}
+
+function changeSearchAlgorithm(event) {
+  let selectedAlgorithm = event.target.value;
+  resetEnvironment(selectedAlgorithm);
+}
+
+function resetEnvironment(selectedAlgorithmKey) {
+  // clear arrays
+  grid = [];
+  obstacles = [];
+  mudFields = [];
+  waterFields = [];
+
+  // generate map
   generateGrid();
   for (let i = 0; i < OBSTACLES_NUMBER; i++) {
     obstacles.push(generateObstacle());
@@ -156,53 +187,33 @@ function setup() {
   for (let i = 0; i < WATER_FIELDS_NUMBER; i++) {
     waterFields.push(generateTerrain(3));
   }
+
   food = generateFood();
   vehicle = new Vehicle(obstacles, grid, gridSize);
-  vehicle.setSearchAlgorithm(new BFS(grid, obstacles, gridSize));
-  counter = 0;
 
-  // Setup algorithm selector
-  let selector = document.getElementById("algorithm-selector");
-  selector.addEventListener("change", changeSearchAlgorithm);
-
-  // Setup speed slider
-  speedSlider = document.getElementById("speed-slider");
-  speedValueLabel = document.getElementById("speed-value");
-  speedSlider.addEventListener("input", updateSearchDelay);
-  updateSearchDelay();
-
-  // Setup food counter label
-  foodCounterLabel = document.getElementById("food-counter");
-  updateFoodCounterLabel();
-
-  vehicle.findPath(food);
-}
-
-function changeSearchAlgorithm(event) {
-  let selectedAlgorithm = event.target.value;
   let newAlgorithm;
-
-  if (selectedAlgorithm === "bfs") {
+  if (selectedAlgorithmKey === "bfs") {
     newAlgorithm = new BFS(grid, obstacles, gridSize);
-  } else if (selectedAlgorithm === "dfs") {
+  } else if (selectedAlgorithmKey === "dfs") {
     newAlgorithm = new DFS(grid, obstacles, gridSize);
-  } else if (selectedAlgorithm === "custo-uniforme") {
+  } else if (selectedAlgorithmKey === "custo-uniforme") {
     newAlgorithm = new CustoUniforme(grid, obstacles, gridSize);
-  } else if (selectedAlgorithm === "gulosa") {
+  } else if (selectedAlgorithmKey === "gulosa") {
     newAlgorithm = new Gulosa(grid, obstacles, gridSize);
-  } else if (selectedAlgorithm === "a*") {
+  } else if (selectedAlgorithmKey === "a*") {
     newAlgorithm = new AStar(grid, obstacles, gridSize);
   }
 
   if (!newAlgorithm) {
-    return;
+    newAlgorithm = new BFS(grid, obstacles, gridSize);
   }
 
-  // Update vehicle with new algorithm and recalculate path
   newAlgorithm.setSearchDelay(getSearchDelayFromSlider());
   vehicle.setSearchAlgorithm(newAlgorithm);
+
   counter = 0;
   updateFoodCounterLabel();
+
   vehicle.findPath(food);
 }
 
