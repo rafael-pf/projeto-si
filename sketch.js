@@ -143,7 +143,8 @@ function setup() {
     }
     food = generateFood();
     vehicle = new Vehicle(obstacles, grid, gridSize);
-    vehicle.seek(food);
+    vehicle.setSearchAlgorithm(new BFS(grid, obstacles, gridSize));
+    vehicle.findPath(food);
     counter = 0;
 }
 
