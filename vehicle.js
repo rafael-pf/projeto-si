@@ -28,6 +28,7 @@ class Vehicle {
         this.grid = grid;
         this.obstacles = obstacles;
         this.path = null;
+        this.pathVis = null;
         this.visited = [];
         this.frontier = [];
         this.pathIndex = 0;
@@ -101,6 +102,7 @@ class Vehicle {
 
             if (current.x === food.x && current.y === food.y) {
                 reconstructPath();
+                this.pathVis = this.path.slice(); // copy the path for visualization
                 return;
             }
 
@@ -117,6 +119,7 @@ class Vehicle {
         };
 
         step();
+
 
         // // follow the path
         // if (path.length > 1) {
@@ -194,9 +197,9 @@ class Vehicle {
         // print path
         noStroke();
         fill(255, 255, 255, 128);
-        if (this.path != null) {
-            for (let i = 1; i < this.path.length - 1; i++) {
-                square(this.path[i].x, this.path[i].y, this.size);
+        if (this.pathVis != null) {
+            for (let i = 1; i < this.pathVis.length - 1; i++) {
+                square(this.pathVis[i].x, this.pathVis[i].y, this.size);
             }
         }
 
