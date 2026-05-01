@@ -132,19 +132,30 @@ class Vehicle {
       if (this.path && this.path.length > 1) {
         
           let target = this.path[1];
-          
+
+          let multiplier = 1;
+
+          let index = this.grid.findIndex(g => g.pos.x === target.x && g.pos.y === target.y);
+
+          if (this.grid[index].tag === 2) {//mud
+              multiplier = 0.5;
+          }
+          if (this.grid[index].tag === 3) {//water
+              multiplier = 0.25;
+          }
+
           if (this.pos.x !== target.x) {
-              if (abs(this.pos.x - target.x) < this.maxSpeed) {
+              if (abs(this.pos.x - target.x) < this.maxSpeed * multiplier) {
                   this.pos.x = target.x;
               } else {
-                  this.pos.x += (target.x > this.pos.x) ? this.maxSpeed : -this.maxSpeed;
+                  this.pos.x += (target.x > this.pos.x) ? this.maxSpeed * multiplier : -this.maxSpeed * multiplier;
               }
           } 
           else if (this.pos.y !== target.y) {
-              if (abs(this.pos.y - target.y) < this.maxSpeed) {
+              if (abs(this.pos.y - target.y) < this.maxSpeed * multiplier) {
                   this.pos.y = target.y;
               } else {
-                  this.pos.y += (target.y > this.pos.y) ? this.maxSpeed : -this.maxSpeed;
+                  this.pos.y += (target.y > this.pos.y) ? this.maxSpeed * multiplier : -this.maxSpeed * multiplier;
               }
           }
 
