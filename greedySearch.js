@@ -41,7 +41,7 @@ class greedySearch extends SearchAlgorithm {
                 }
             }
             // Continua a busca de forma assíncrona para permitir a visualização
-            setTimeout(step, 30);
+            setTimeout(step, this.searchDelay);
         };
 
         step();
