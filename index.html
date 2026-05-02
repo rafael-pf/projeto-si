@@ -1,23 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
+  </head>
 
-</head>
-
-<body>
-    <main>
-    </main>
+  <body>
+    <div id="controls">
+      <label for="algorithm-selector">Algoritmo de Busca:</label>
+      <select id="algorithm-selector">
+        <option value="bfs">BFS</option>
+        <option value="dfs">DFS</option>
+        <option value="custo-uniforme">Custo Uniforme</option>
+        <option value="gulosa">Gulosa</option>
+        <option value="a*">A*</option>
+      </select>
+      <label for="speed-slider">Delay da Busca (ms):</label>
+      <input
+        type="range"
+        id="speed-slider"
+        min="5"
+        max="500"
+        value="5"
+        step="10"
+      />
+      <span id="speed-value">100</span>
+      <div id="food-counter">Comidas coletadas: 0</div>
+    </div>
+    <main></main>
     <script src="PriorityQueue.js"></script>
     <script src="SearchAlgorithm.js"></script>
     <script src="bfs.js"></script>
+    <script src="dfs.js"></script>
     <script src="greedySearch.js"></script>
     <script src="vehicle.js"></script>
     <script src="sketch.js"></script>
-</body>
-
+  </body>
 </html>
