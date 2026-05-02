@@ -56,6 +56,10 @@ class SearchAlgorithm {
     throw new Error("search() method must be implemented by subclass");
   }
 
+  heuristic(start, goal) {
+    return abs(start.x - goal.x) + abs(start.y - goal.y);
+  }
+
   reconstructPath(goal, cameFrom) {
     let path = [];
     let current = goal;
