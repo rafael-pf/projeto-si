@@ -56,6 +56,30 @@ class SearchAlgorithm {
     throw new Error("search() method must be implemented by subclass");
   }
 
+  getCost(a, b) {
+    let index = this.grid.findIndex(
+      (g) => g.pos.x === b.x && g.pos.y === b.y
+    );
+
+    if (index === -1) {
+      return Infinity; // evita quebrar a busca
+    }
+
+    let tag = this.grid[index].tag;
+
+    if (tag === 0) {
+      return 1; // custo padrão para terreno normal
+    } else if (tag === 1) {
+      return Infinity; // obstáculo, custo infinito
+    } else if (tag === 2) {
+      return 2; // lama, custo maior
+    } else if (tag === 3) {
+      return 4; // água, custo ainda maior
+    } else {
+      return 1; // custo padrão para qualquer outro tipo de terreno
+    }
+  }
+
   heuristic(start, goal) {
     return abs(start.x - goal.x) + abs(start.y - goal.y);
   }
