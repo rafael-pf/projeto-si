@@ -37,14 +37,14 @@ class UniformCost extends SearchAlgorithm {
         setTimeout(step, this.searchDelay);
         return;
       }
-      
+
       if (current.x === goal.x && current.y === goal.y) {
         reconstructPath();
         return;
       }
-      
+
       this.visited.push(current);
-      
+
       let neighbors = this.getNeighbors(current);
 
       for (let next of neighbors) {
@@ -67,31 +67,7 @@ class UniformCost extends SearchAlgorithm {
     step();
   }
 
-  getCost(a, b) {
-    let index = this.grid.findIndex(
-        (g) => g.pos.x === b.x && g.pos.y === b.y
-    );
-
-    if (index === -1) {
-        return Infinity; // evita quebrar a busca
-    }
-
-    let tag = this.grid[index].tag;
-
-    if (tag === 0) {
-        return 1; // custo padrão para terreno normal
-    } else if (tag === 1) {
-        return Infinity; // obstáculo, custo infinito
-    } else if (tag === 2) {
-        return 2; // lama, custo maior
-    } else if (tag === 3) {
-        return 4; // água, custo ainda maior
-    } else {
-        return 1; // custo padrão para qualquer outro tipo de terreno
-    }
+  getFrontier() {
+    return this.frontier.toArray();
   }
-
-    getFrontier() {
-        return this.frontier.toArray();
-    }
 }
