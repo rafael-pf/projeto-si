@@ -197,7 +197,7 @@ function resetEnvironment(selectedAlgorithmKey) {
   } else if (selectedAlgorithmKey === "dfs") {
     newAlgorithm = new DFS(grid, obstacles, gridSize);
   } else if (selectedAlgorithmKey === "custo-uniforme") {
-    newAlgorithm = new CustoUniforme(grid, obstacles, gridSize);
+    newAlgorithm = new UniformCost(grid, obstacles, gridSize);
   } else if (selectedAlgorithmKey === "gulosa") {
     newAlgorithm = new GreedySearch(grid, obstacles, gridSize);
   } else if (selectedAlgorithmKey === "a*") {
