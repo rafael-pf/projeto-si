@@ -1,4 +1,4 @@
-class greedySearch extends SearchAlgorithm {
+class GreedySearch extends SearchAlgorithm {
     constructor(grid, obstacles, gridSize) {
         super(grid, obstacles, gridSize);
     }

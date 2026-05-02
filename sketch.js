@@ -199,7 +199,7 @@ function resetEnvironment(selectedAlgorithmKey) {
   } else if (selectedAlgorithmKey === "custo-uniforme") {
     newAlgorithm = new CustoUniforme(grid, obstacles, gridSize);
   } else if (selectedAlgorithmKey === "gulosa") {
-    newAlgorithm = new greedySearch(grid, obstacles, gridSize);
+    newAlgorithm = new GreedySearch(grid, obstacles, gridSize);
   } else if (selectedAlgorithmKey === "a*") {
     newAlgorithm = new AStar(grid, obstacles, gridSize);
   }
