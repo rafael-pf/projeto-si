@@ -54,6 +54,10 @@ class SearchAlgorithm {
         return path.reverse();
     }
 
+    heuristic(start, goal) {
+        return abs(start.x - goal.x) + abs(start.y - goal.y);
+    }
+
     getPath() {
         return this.path;
     }

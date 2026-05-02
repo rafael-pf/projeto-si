@@ -42,7 +42,7 @@ class Vehicle {
         this.searchRadius = 150;
         
         // Set search algorithm (BFS by default)
-        this.searchAlgorithm = searchAlgorithm || new BFS(grid, obstacles, gridSize);
+        this.searchAlgorithm = searchAlgorithm || new BFS(grid, obstacles, gridSize) || new greedySearch(grid, obstacles, gridSize);
     }
 
     // Set a new search algorithm
