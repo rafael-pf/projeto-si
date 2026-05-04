@@ -28,8 +28,8 @@ let speedValueLabel;
 let foodCounterLabel;
 
 function preload() {
-  imgVeiculo = loadImage("car.png");
-  imgComida = loadImage("apple.png");
+  imgVeiculo = loadImage("assets/car.png");
+  imgComida = loadImage("assets/apple.png");
 }
 
 function drawGrid() {
