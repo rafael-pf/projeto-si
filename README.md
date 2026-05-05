@@ -1,12 +1,12 @@
 # Projeto SI - Algoritmos de busca
 
-# Integrantes
+## Integrantes
 - Daniel Silvestre de Franca e Souza
 - Gabriel Valenca Mayerhofer
 - Joao Pedro Barbosa Marins
 - Rafael Paz Fernandes
 
-# Como rodar
+## Como rodar
 
 1. Clone o repositório:
 
